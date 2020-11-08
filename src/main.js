@@ -8,6 +8,7 @@ import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import '@/icons';
 import '@/styles/index.scss' // global css
 Vue.config.productionTip = false;
+Vue.use(ElementUI);
 
 new Vue({
   router,
