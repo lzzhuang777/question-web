@@ -32,9 +32,9 @@
 </template>
 
 <script>
-    import header from "@/components/Head"
+    import header from "@/components/Head";
     export default {
-        name: "index.vue",
+        name: "testDetail",
         data() {
             return{
                 total: 10,
@@ -48,13 +48,17 @@
             Head: header,
         },
         created(){
-
+            this.makeTest();
         },
         methods:{
             handleCurrentChange(val){
+                this.count = this.count+1;
                 this.question = this.question[val-1];
             },
             getquestionList(){
+
+            },
+            makeTest(){
 
             }
         }
