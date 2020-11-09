@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
-export function login(username, password) {
+export function login(phone, password) {
     return request({
-        url: '/admin/login',
+        url: 'questions-member/ums/umsMember/p/login',
         method: 'post',
         data: {
-            username,
+            phone,
             password
         }
     })
@@ -13,7 +13,7 @@ export function login(username, password) {
 
 export function getInfo() {
     return request({
-        url: '/admin/info',
+        url: 'questions-member/ums/umsMember/v/loadCurrentUserByTokenAsJson',
         method: 'get',
     })
 }

@@ -27,12 +27,11 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const phone = userInfo.phone.trim()
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
-          const data = response.data
-          const tokenStr = data.tokenHead+data.token
-          setToken(tokenStr)
+        login(phone, userInfo.password).then(response => {
+          const tokenStr = response.data;
+          setToken(tokenStr);
           commit('SET_TOKEN', tokenStr)
           resolve()
         }).catch(error => {
@@ -42,17 +41,12 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.username)
-          commit('SET_AVATAR', data.icon)
+          const user =JSON.parse(response.data);
+          commit('SET_NAME', user.nickname);
+          commit('SET_AVATAR', user.avatar);
           resolve(response)
         }).catch(error => {
           reject(error)

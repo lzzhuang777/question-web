@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="12">
                 <el-image :fit="'fit'"
-                          src="http://localhost:9000/question/logo.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20201108%2F%2Fs3%2Faws4_request&X-Amz-Date=20201108T102245Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=37de5b1ae0b268531934e82feff7a3135c53edbaf4bbbd59bd8653b85abfa787"
+                          src="http://120.27.195.211:9090/ysy/20200524/head.png"
                           class="img"></el-image>
             </el-col>
             <el-col :span="8">
@@ -21,13 +21,11 @@
             <el-col :span="4">
 
                 <div class="t-info">
-                    <template v-if="gIsLogin">
-                        <a class="t-login" @click="changeType(2)">{{ sLoginInfo.nickName }}</a>
-                        <a class="t-register" href="javascript:;" @click="mLogout">
-                            <el-button type="primary" plain>登录</el-button>
-                        </a>
+                    <template v-if="token">
+                       <el-image :src="avatar" class="avatar">
+                       </el-image>
                     </template>
-                    <template v-else="gIsLogin">
+                    <template v-else="token">
                         <router-link to="/login" class="t-login">
                             <el-button size="medium" style="margin-top: 12px" type="primary" plain>登录/注册</el-button>
                         </router-link>
@@ -39,6 +37,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     export default {
         name: "index.vue",
         data() {
@@ -46,14 +45,26 @@
                 gIsLogin: false,
                 search: '',
                  }
+        },
+        computed: {
+            ...mapGetters([
+                'avatar',
+                'token'
+            ])
+        },
+        methods:{
+            login(){
+                this.$router.push({path:"/login"});
+            }
         }
     }
 </script>
 
 <style scoped>
     .img {
+        border-radius:250px;
         height: 60px;
-        width: 100px;
+        width: 60px;
         float: left;
     }
 
@@ -64,6 +75,12 @@
     .search {
         height: 60px;
         width: 200px;
+        float: right;
+    }
+    .avatar{
+        border-radius:250px;
+        height: 60px;
+        width: 60px;
         float: right;
     }
 
