@@ -18,7 +18,7 @@
         created () {
             this.timer = setInterval(this.startTimer, 1000);
         },
-        destroyed () {
+        stop() {
             clearInterval(this.timer);
         },
 
@@ -27,11 +27,11 @@
                 this.seconds += 1;
                 if (this.seconds >= 60) {
                     this.seconds = 0;
-                    this.minute = this.minute + 1;
+                    this.minutes = this.minutes + 1;
                 }
 
-                if (this.minute >= 60) {
-                    this.minute = 0;
+                if (this.minutes >= 60) {
+                    this.minutes = 0;
                     this.hour = this.hour + 1;
                 }
                 this.$refs.startTimer.innerHTML = (this.minutes < 10 ? '0' + this.minutes : this.minutes) + ':' + (this.seconds < 10 ? '0' + this.seconds : this.seconds);

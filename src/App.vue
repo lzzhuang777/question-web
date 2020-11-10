@@ -12,8 +12,12 @@
 </script>
 
 <style >
+
   #app{
     background-color: #f9fafc;
-    height: 1500px;
+    height: 1200px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 </style>
