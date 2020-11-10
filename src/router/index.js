@@ -20,6 +20,11 @@ const routes = [
         path: "/login",
         name: "login",
         component: () => import('@/views/login/index')
+    },
+    {
+        path: "/test",
+        name: "test",
+        component: () => import('@/views/question/index')
     }
 ];
 

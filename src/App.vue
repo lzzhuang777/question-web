@@ -11,6 +11,9 @@
     }
 </script>
 
-<style>
-
+<style >
+  #app{
+    background-color: #f9fafc;
+    height: 1500px;
+  }
 </style>

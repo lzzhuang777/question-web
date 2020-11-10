@@ -73,6 +73,10 @@
 </script>
 
 <style scoped>
+    .bg {
+        width: 1200px;
+        margin: auto;
+    }
     .item {
         margin-bottom: 18px;
     }
