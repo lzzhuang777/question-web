@@ -8,9 +8,19 @@ export function bannerList() {
     })
 }
 
-export function testList() {
+export function typeList() {
     return request({
-        url: 'questions-question/qms/qmsTest/p/listAll',
+        url: 'questions-question/qms/qmsType/p/listAll',
         method: 'get',
     })
 }
+
+export function makeTest(params) {
+    return request({
+        url: 'questions-study/sms/smsMemberTest/makeMemberTest',
+        method: 'Post',
+        params:params
+    })
+}
+
+

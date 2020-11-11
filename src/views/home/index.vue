@@ -10,14 +10,14 @@
             </el-carousel>
         </div>
         <div class="part2">
-            <div v-for="test in testList" class="cardlist">
+            <div v-for="test in typeList" class="cardlist" :key="test.id">
                 <el-card  class="box-card">
                     <div slot="header" class="clearfix">
-                        <span>{{test.testName}}</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">点击练习</el-button>
+                        <span>{{test.type}}</span>
+                        <el-button @click="makeTest(test.id,test.type)" style="float: right; padding: 3px 0" type="text">点击练习</el-button>
                     </div>
                     <div  class="text item">
-                        <el-image :src="test.pic">
+                        <el-image style="width: 155px;height: 155px" :src="test.logoUrl">
                         </el-image>
                     </div>
                 </el-card>
@@ -28,28 +28,32 @@
 
 <script>
     import header from "@/components/Head";
-    import {testList,bannerList} from "@/api/home";
+    import {typeList,bannerList,makeTest} from "@/api/home";
+
+    const defaultListQuery ={
+        type: null
+    };
     export default {
         name: "index.vue",
         data() {
             return{
+                listQuery: Object.assign({}, defaultListQuery),
                 bannerList: [
                     {
                         id: "1",
-                        url: "http://120.27.195.211:9090/ysy/20200514/733C2A3C08B504AFFDAD54A2E636A3FF.jpg",
+                        url: " http://120.27.195.211:9090/ysy/20200524/banner1.png",
                     },
+
                     {
                         id: "2",
-                        url: "http://120.27.195.211:9090/ysy/20200514/733C2A3C08B504AFFDAD54A2E636A3FF.jpg",
+                        url: " http://120.27.195.211:9090/ysy/20200524/banner1.png",
                     },
                     {
                         id: "3",
-                        url: "http://120.27.195.211:9090/ysy/20200514/733C2A3C08B504AFFDAD54A2E636A3FF.jpg",
+                        url: " http://120.27.195.211:9090/ysy/20200524/banner1.png",
                     }
                 ],
-                testList: [],
-
-
+                typeList: [],
             };
         },
         components:{
@@ -64,8 +68,16 @@
 
             },
             getTestList(){
-                testList().then(response =>{
-                    this.testList = response.data;
+                typeList().then(response =>{
+                    this.typeList = response.data;
+                })
+            },
+            makeTest (typeId,typeName){
+                this.listQuery.type = typeId;
+                makeTest(this.listQuery).then(response =>{
+                    if(response.code === 200) {
+                        this.$router.push({path: '/test', query: {id: response.data,type:typeName}})
+                    }
                 })
             }
         }
@@ -82,13 +94,11 @@
     }
     .box-card {
         width: 250px;
-        float: right;
+        float: left;
         margin-left: 30px;
+        margin-top: 20px;
     }
     .part2 {
         margin: 30px 20px 0 20px;
-    }
-    .cardlist:first-child {
-        margin-left: 0;
     }
 </style>

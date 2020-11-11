@@ -8,3 +8,31 @@ export function smsMemberTest(id,params) {
     })
 }
 
+export function isCollection(params) {
+    return request({
+        url: 'questions-member/ums/umsMember/v/isCollection',
+        method: 'get',
+        params:params
+    })
+}
+
+export function collectionQuestion(data) {
+    return request({
+        url: 'questions-member/ums/umsMember/v/collectionQuestion',
+        method: 'Post',
+        data:data
+    })
+}
+
+export function delCollection(params) {
+    return request({
+        url: 'questions-member/ums/umsMember/v/delCollection',
+        method: 'get',
+        params:params
+    })
+}
+
+
+
+
+

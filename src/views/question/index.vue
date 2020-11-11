@@ -13,7 +13,7 @@
                                     justify-content: center; ">
                             <span @click="clickControl" style="margin-right: 10px;font-size: 20px" v-if="timeControl" class="el-icon-video-pause"></span>
                             <span @click="clickControl" style="margin-right: 10px; font-size: 20px" v-else="timeControl" class="el-icon-video-play"></span>
-                            <Timer ref="time"></Timer>
+                            <!--<Timer ref="time"></Timer>-->
                         </div>
                     </el-col>
                 </el-row>
@@ -34,9 +34,12 @@
             <div class="function">
                 <el-row :gutter="20">
                     <el-col :span="16">
-                    <span style="color: #F56C6C;margin-left: 10px;cursor:pointer;" @click="collectionQues">
-                        <el-button size="medium" type="danger" icon="el-icon-star-off" circle></el-button> 收藏一下
-                    </span>
+                         <span v-if="collect" style="color: #F56C6C;margin-left: 10px;cursor:pointer;" @click="delCollection">
+                            <el-button size="medium" type="danger" icon="el-icon-star-off" circle></el-button> 取消收藏
+                        </span>
+                        <span v-else="collect" style="color: #E6A23C;margin-left: 10px;cursor:pointer;" @click="collectionQues">
+                            <el-button size="medium" type="warning" icon="el-icon-star-off" circle></el-button> 收藏一下
+                        </span>
                     </el-col>
                     <el-col :span="4">
                         <el-button @click="submitTest" style="float: right" size="medium" type="primary" plain>提前交卷</el-button>
@@ -53,7 +56,7 @@
                         @current-change="handleCurrentChange"
                         :page-size="listQuery.pageSize"
                         :current-page.sync="listQuery.pageNum"
-                        :pagerCount="10"
+                        :pagerCount="11"
                         :total="total">
                 </el-pagination>
             </div>
@@ -65,7 +68,7 @@
 <script>
     import timer from "@/components/timer";
     import header from "@/components/Head";
-    import {smsMemberTest} from "@/api/test"
+    import {smsMemberTest,isCollection,collectionQuestion,delCollection} from "@/api/test"
 
     const defaultListQuery = {
         pageNum: 1,
@@ -77,12 +80,12 @@
             return {
                 listQuery: Object.assign({}, defaultListQuery),
                 total: 10,
-                testName: '',
                 question: {},
-                quesList: [],
                 count: 1,
                 timeControl: true,
-                radio : null
+                radio: null,
+                collect: false,
+                collects: {}
             }
         },
         components: {
@@ -99,11 +102,11 @@
                 this.getQuestionList();
             },
             getQuestionList() {
-                //this.$route.query.id,
-                smsMemberTest(1, this.listQuery).then(response => {
+                smsMemberTest(this.$route.query.id, this.listQuery).then(response => {
                     this.question = response.data.list[0];
                     this.total = response.data.total;
                     this.radio = response.data.list[0].memberAnswer;
+                    this.isCollection(response.data.list[0].quesId);
                 })
             },
             clickControl (){
@@ -111,7 +114,34 @@
                 this.$nextTick().time.stop();
             },
             collectionQues (){
-
+                let params= {
+                    "quesId" : this.question.quesId,
+                    "quesName" : this.question.title,
+                    "tag" : this.question.type,
+                };
+                collectionQuestion(params).then(response =>{
+                    this.isCollection(this.question.quesId);
+                    if(response.code === 200){
+                        this.$message({
+                            type: 'success',
+                            message: '收藏试题成功!'
+                        });
+                    }
+                })
+            },
+            delCollection (){
+                let params = {
+                    quesId: this.question.quesId,
+                };
+                delCollection(params).then(response =>{
+                    this.isCollection(this.question.quesId);
+                    if(response.code === 200){
+                        this.$message({
+                            type: 'success',
+                            message: '取消收藏成功!'
+                        });
+                    }
+                })
             },
             submitTest(){
                 if(this.question.memberAnswer == null && this.radio != null){
@@ -123,7 +153,12 @@
             },
             updateInfo(){
 
-            }
+            },
+            isCollection (quesId){
+                isCollection({quesId:quesId}).then(response =>{
+                    this.collect = response.data;
+                })
+            },
         }
     }
 </script>
