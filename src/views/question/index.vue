@@ -23,7 +23,7 @@
                 <div style="margin-top: 30px;">
                     <div style="margin-bottom: 30px;color: #606266">{{question.title}}</div>
                     <el-radio-group v-model="question.memberAnswer" class="radio_group">
-                        <el-radio class="radio" :label="ans.answerHead" border v-for="ans in question.answerList"
+                        <el-radio @click="updateInfo(ans.answerHead)" class="radio" :label="ans.answerHead" border v-for="ans in question.answerList"
                                   :key="ans.id">
                             {{ans.answerHead + ": "+ ans.answer}}
                         </el-radio>
@@ -68,7 +68,7 @@
 <script>
     import timer from "@/components/timer";
     import header from "@/components/Head";
-    import {smsMemberTest,isCollection,collectionQuestion,delCollection} from "@/api/test"
+    import {smsMemberTest,isCollection,collectionQuestion,delCollection,submitQuesAnswer} from "@/api/test"
 
     const defaultListQuery = {
         pageNum: 1,
@@ -91,6 +91,9 @@
         components: {
             Head: header,
             Timer: timer,
+        },
+        watch: {
+
         },
         created() {
             this.getQuestionList();
@@ -151,7 +154,15 @@
                     this.question.memberAnswer = this.radio;
                 }
             },
-            updateInfo(){
+            updateInfo(answer){
+                let memberAnswer = {
+                    "memberTestId" : this.$route.query.id,
+                    "quesId" : this.question.quesId,
+                    "answer" : answer
+                };
+                console.log("jinlai");
+                submitQuesAnswer(memberAnswer).then(response =>{
+                })
 
             },
             isCollection (quesId){

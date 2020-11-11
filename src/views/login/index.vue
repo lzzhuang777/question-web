@@ -11,8 +11,8 @@
                     Login
                 </div>
                 <div class="form-wrapper">
-                    <input type="text" name="phone" placeholder="手机号" class="input-item"></input>
-                    <input type="password" name="password" placeholder="密码" class="input-item"></input>
+                    <input type="text" name="phone" v-model="loginForm.phone" placeholder="手机号" class="input-item"></input>
+                    <input type="password" name="password" v-model="loginForm.password" placeholder="密码" class="input-item"></input>
                 </div>
                 <div class="btn" @click="handleLogin">Login</div>
                 <div class="msg">
@@ -52,6 +52,7 @@
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
                         this.loading = true;
+                        console.log(this.loginForm.phone);
                         this.$store.dispatch('Login', this.loginForm).then(() => {
                             this.loading = false;
                             this.$store.dispatch('GetInfo').then(() =>{

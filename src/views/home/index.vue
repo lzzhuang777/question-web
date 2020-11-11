@@ -13,7 +13,7 @@
             <div v-for="test in typeList" class="cardlist" :key="test.id">
                 <el-card  class="box-card">
                     <div slot="header" class="clearfix">
-                        <span>{{test.type}}</span>
+                        <span class="type">{{test.type}}</span>
                         <el-button @click="makeTest(test.id,test.type)" style="float: right; padding: 3px 0" type="text">点击练习</el-button>
                     </div>
                     <div  class="text item">
@@ -41,16 +41,16 @@
                 bannerList: [
                     {
                         id: "1",
-                        url: " http://120.27.195.211:9090/ysy/20200524/banner1.png",
+                        url: "http://120.27.195.211:9090/ysy/20200524/banner1.png",
                     },
 
                     {
                         id: "2",
-                        url: " http://120.27.195.211:9090/ysy/20200524/banner1.png",
+                        url: "http://localhost:9000/question/banner3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20201111%2F%2Fs3%2Faws4_request&X-Amz-Date=20201111T125222Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=cbacd0609ec2420f850e3097a1ead43c1242a2862bb27568b647acdea88cac81",
                     },
                     {
                         id: "3",
-                        url: " http://120.27.195.211:9090/ysy/20200524/banner1.png",
+                        url: "http://localhost:9000/question/banner2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20201111%2F%2Fs3%2Faws4_request&X-Amz-Date=20201111T125235Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=495a7ef952a8451f83f45d02d6ba68cc11d9fdbd9f3c622f7b882db528f3c1ef",
                     }
                 ],
                 typeList: [],
@@ -88,6 +88,8 @@
     .bg {
         width: 1200px;
         margin: auto;
+        background-color: #fff;
+        height: 1500px;
     }
     .item {
         margin-bottom: 18px;
@@ -100,5 +102,10 @@
     }
     .part2 {
         margin: 30px 20px 0 20px;
+    }
+    .type {
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        font-weight: inherit;
+        color: #71777c;
     }
 </style>

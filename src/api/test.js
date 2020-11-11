@@ -32,6 +32,16 @@ export function delCollection(params) {
     })
 }
 
+export function submitQuesAnswer(data) {
+    return request({
+        url: 'questions-study/sms/smsMemberTest/submitQuesAnswer',
+        method: 'Post',
+        data:data
+    })
+}
+
+
+
 
 
 

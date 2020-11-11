@@ -28,11 +28,49 @@
                 </div>
             </el-col>
             <el-col :span="4">
-
                 <div class="t-info">
                     <template v-if="token">
-                       <el-image :src="avatar" class="avatar">
-                       </el-image>
+                        <el-dropdown trigger="click" style=" margin-right: 20px;float: right;">
+                           <el-image :src="avatar" class="avatar">
+                           </el-image>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <div @click="backHome">
+                                        <span class="el-icon-user-solid" style="margin-right: 10px">
+                                        </span>
+                                        <span>我的主页</span>
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <div @click="backHome">
+                                        <span class="el-icon-star-on" style="margin-right: 10px">
+                                        </span>
+                                        <span>我的收藏</span>
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <div @click="backHome">
+                                        <span class="el-icon-document-delete" style="margin-right: 10px">
+                                        </span>
+                                        <span>错题集</span>
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <div @click="backHome">
+                                        <span class="el-icon-date" style="margin-right: 10px">
+                                        </span>
+                                        <span>每日签到</span>
+                                    </div>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <div @click="loginOut">
+                                        <span class="el-icon-d-arrow-right" style="margin-right: 10px">
+                                        </span>
+                                        <span>登出</span>
+                                    </div>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                     <template v-else="token">
                         <router-link to="/login" class="t-login">
@@ -48,7 +86,7 @@
 <script>
     import { mapGetters } from 'vuex'
     export default {
-        name: "index.vue",
+        name: "login",
         data() {
             return {
                 gIsLogin: false,
@@ -64,6 +102,17 @@
         methods:{
             login(){
                 this.$router.push({path:"/login"});
+            },
+            backHome (){
+                this.$router.push({path:"/"});
+            },
+            loginOut (){
+                this.$store.dispatch('FedLogOut').then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '登出成功!'
+                    });
+                })
             }
         }
     }
@@ -99,6 +148,7 @@
         width: 50px;
         margin-top: 5px;
         margin-right: 20px;
+        cursor: pointer;
         float: right;
     }
     .title {

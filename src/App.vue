@@ -15,7 +15,7 @@
 
   #app{
     background-color: #f9fafc;
-    height: 1200px;
+    height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;

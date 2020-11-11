@@ -48,8 +48,7 @@ const user = {
     GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const user =JSON.parse(response.data);
-          console.log(user.id);
+          const user = response.data;
           commit('SET_USERID', user.id);
           commit('SET_NAME', user.nickname);
           commit('SET_AVATAR', user.avatar);
