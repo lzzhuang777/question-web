@@ -5,6 +5,9 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
+    {   path: '/404',
+        component: () => import('@/views/404'),
+    },
     {
         path: "/",
         name: "home",
@@ -25,7 +28,8 @@ const routes = [
         path: "/test",
         name: "test",
         component: () => import('@/views/question/index')
-    }
+    },
+    {path: '*', redirect: '/404', hidden: true}
 ];
 
 

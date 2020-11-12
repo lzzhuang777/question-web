@@ -46,11 +46,11 @@
 
                     {
                         id: "2",
-                        url: "http://localhost:9000/question/banner3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20201111%2F%2Fs3%2Faws4_request&X-Amz-Date=20201111T125222Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=cbacd0609ec2420f850e3097a1ead43c1242a2862bb27568b647acdea88cac81",
+                        url: "http://120.27.195.211:9090/ysy/20201112/banner3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20201112%2F%2Fs3%2Faws4_request&X-Amz-Date=20201112T011323Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=41d1426feec65a60a421601d6793b87533ee0d6f47a600de9c65670c9998a60b",
                     },
                     {
                         id: "3",
-                        url: "http://localhost:9000/question/banner2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20201111%2F%2Fs3%2Faws4_request&X-Amz-Date=20201111T125235Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=495a7ef952a8451f83f45d02d6ba68cc11d9fdbd9f3c622f7b882db528f3c1ef",
+                        url: "http://120.27.195.211:9090/ysy/20201112/banner2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20201112%2F%2Fs3%2Faws4_request&X-Amz-Date=20201112T011409Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=4ab33d11d400166ea86a015b1f29cabc2cdec1da123541992a4d9bf87f8e25f9",
                     }
                 ],
                 typeList: [],

@@ -9,7 +9,6 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
   if (getToken()) {
       store.dispatch('GetInfo').then(res => {
-
       });
       next();
       NProgress.done()

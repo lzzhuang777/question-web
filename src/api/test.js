@@ -40,6 +40,13 @@ export function submitQuesAnswer(data) {
     })
 }
 
+export function submitTest(id) {
+    return request({
+        url: 'questions-study/sms/smsMemberTest/submitTest'+id,
+        method: 'Post',
+    })
+}
+
 
 
 

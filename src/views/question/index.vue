@@ -11,8 +11,10 @@
                         <div style="float: right;display: flex;height: 80px;
                                     align-items: center;
                                     justify-content: center; ">
-                            <span @click="clickControl" style="margin-right: 10px;font-size: 20px" v-if="timeControl" class="el-icon-video-pause"></span>
-                            <span @click="clickControl" style="margin-right: 10px; font-size: 20px" v-else="timeControl" class="el-icon-video-play"></span>
+                            <span @click="clickControl" style="margin-right: 10px;font-size: 20px" v-if="timeControl"
+                                  class="el-icon-video-pause"></span>
+                            <span @click="clickControl" style="margin-right: 10px; font-size: 20px" v-else="timeControl"
+                                  class="el-icon-video-play"></span>
                             <!--<Timer ref="time"></Timer>-->
                         </div>
                     </el-col>
@@ -22,8 +24,9 @@
                 <span class="el-icon-s-grid"></span><span style="color: #606266">{{count + "/" + total}}</span>
                 <div style="margin-top: 30px;">
                     <div style="margin-bottom: 30px;color: #606266">{{question.title}}</div>
-                    <el-radio-group v-model="question.memberAnswer" class="radio_group">
-                        <el-radio @click="updateInfo(ans.answerHead)" class="radio" :label="ans.answerHead" border v-for="ans in question.answerList"
+                    <el-radio-group v-model="radio" class="radio_group">
+                        <el-radio @change="updateInfo()" class="radio" :label="ans.answerHead" border
+                                  v-for="ans in question.answerList"
                                   :key="ans.id">
                             {{ans.answerHead + ": "+ ans.answer}}
                         </el-radio>
@@ -34,15 +37,18 @@
             <div class="function">
                 <el-row :gutter="20">
                     <el-col :span="16">
-                         <span v-if="collect" style="color: #F56C6C;margin-left: 10px;cursor:pointer;" @click="delCollection">
+                         <span v-if="collect" style="color: #F56C6C;margin-left: 10px;cursor:pointer;"
+                               @click="delCollection">
                             <el-button size="medium" type="danger" icon="el-icon-star-off" circle></el-button> 取消收藏
                         </span>
-                        <span v-else="collect" style="color: #E6A23C;margin-left: 10px;cursor:pointer;" @click="collectionQues">
+                        <span v-else="collect" style="color: #E6A23C;margin-left: 10px;cursor:pointer;"
+                              @click="collectionQues">
                             <el-button size="medium" type="warning" icon="el-icon-star-off" circle></el-button> 收藏一下
                         </span>
                     </el-col>
                     <el-col :span="4">
-                        <el-button @click="submitTest" style="float: right" size="medium" type="primary" plain>提前交卷</el-button>
+                        <el-button @click="submitTest" style="float: right" size="medium" type="primary" plain>提前交卷
+                        </el-button>
                     </el-col>
                     <el-col :span="4">
                         <el-button size="medium" type="success" icon="el-icon-arrow-right" plain>下一题</el-button>
@@ -60,15 +66,48 @@
                         :total="total">
                 </el-pagination>
             </div>
+            <el-dialog
+                    :title="'测验答题详情'"
+                    :visible.sync="testDialogVisible"
+                    width="40%"
+                    class="dialogClass">
+                <div>
+                    <el-progress type="circle" :percentage="100" status="success"></el-progress>
+                </div>
+                <div>
+                    <el-row>
+                        <el-col>
+                            <span></span>
+                            <span>答题时间</span>
+                        </el-col>
+                        <el-col>
+                            <span></span>
+                            <span>正确题目</span>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div>
+                    <div v-for="memberAns in memberTest.memberAnswerList">
+                        <span v-if="memberAns">
+
+                        </span>
+                        <span v-else="memberAns">
+
+                        </span>
+                    </div>
+                </div>
+            </el-dialog>
         </div>
     </div>
-
 </template>
 
 <script>
     import timer from "@/components/timer";
     import header from "@/components/Head";
-    import {smsMemberTest,isCollection,collectionQuestion,delCollection,submitQuesAnswer} from "@/api/test"
+    import {
+        smsMemberTest, isCollection, collectionQuestion,
+        delCollection, submitQuesAnswer, submitTest
+    } from "@/api/test"
 
     const defaultListQuery = {
         pageNum: 1,
@@ -85,16 +124,16 @@
                 timeControl: true,
                 radio: null,
                 collect: false,
-                collects: {}
+                collects: {},
+                testDialogVisible: false,
+                memberTest: {}
             }
         },
         components: {
             Head: header,
             Timer: timer,
         },
-        watch: {
-
-        },
+        watch: {},
         created() {
             this.getQuestionList();
         },
@@ -112,19 +151,19 @@
                     this.isCollection(response.data.list[0].quesId);
                 })
             },
-            clickControl (){
+            clickControl() {
                 this.timeControl = !this.timeControl;
                 this.$nextTick().time.stop();
             },
-            collectionQues (){
-                let params= {
-                    "quesId" : this.question.quesId,
-                    "quesName" : this.question.title,
-                    "tag" : this.question.type,
+            collectionQues() {
+                let params = {
+                    "quesId": this.question.quesId,
+                    "quesName": this.question.title,
+                    "tag": this.question.type,
                 };
-                collectionQuestion(params).then(response =>{
+                collectionQuestion(params).then(response => {
                     this.isCollection(this.question.quesId);
-                    if(response.code === 200){
+                    if (response.code === 200) {
                         this.$message({
                             type: 'success',
                             message: '收藏试题成功!'
@@ -132,13 +171,13 @@
                     }
                 })
             },
-            delCollection (){
+            delCollection() {
                 let params = {
                     quesId: this.question.quesId,
                 };
-                delCollection(params).then(response =>{
+                delCollection(params).then(response => {
                     this.isCollection(this.question.quesId);
-                    if(response.code === 200){
+                    if (response.code === 200) {
                         this.$message({
                             type: 'success',
                             message: '取消收藏成功!'
@@ -146,27 +185,24 @@
                     }
                 })
             },
-            submitTest(){
-                if(this.question.memberAnswer == null && this.radio != null){
-                    this.question.memberAnswer = this.radio;
-
-                }else if(this.question.memberAnswer != null && !this.question.memberAnswer.equals(this.radio)){
-                    this.question.memberAnswer = this.radio;
-                }
-            },
-            updateInfo(answer){
-                let memberAnswer = {
-                    "memberTestId" : this.$route.query.id,
-                    "quesId" : this.question.quesId,
-                    "answer" : answer
-                };
-                console.log("jinlai");
-                submitQuesAnswer(memberAnswer).then(response =>{
+            submitTest() {
+                submitTest(this.$route.query.id).then(response => {
+                    this.testDialogVisible = true;
                 })
-
             },
-            isCollection (quesId){
-                isCollection({quesId:quesId}).then(response =>{
+            updateInfo() {
+                let memberAnswer = {
+                    "memberTestId": this.$route.query.id,
+                    "quesId": this.question.quesId,
+                    "answer": this.radio,
+                    "isCorrect": this.radio === this.question.answer ? 1 : 0
+                };
+                console.log(memberAnswer)
+                submitQuesAnswer(memberAnswer).then(response => {
+                })
+            },
+            isCollection(quesId) {
+                isCollection({quesId: quesId}).then(response => {
                     this.collect = response.data;
                 })
             },
@@ -209,21 +245,23 @@
         margin: 20px 0 50px 0;
     }
 
-    /deep/.el-pagination.is-background .el-pager li {
+    /deep/ .el-pagination.is-background .el-pager li {
         margin: 0 10px;
         min-width: 40px;
         height: 38px;
         font-size: 15px;
         line-height: 37px;
     }
-    /deep/.el-pagination.is-background .btn-next{
+
+    /deep/ .el-pagination.is-background .btn-next {
         margin: 0 10px;
         min-width: 40px;
         height: 38px;
         font-size: 15px;
         line-height: 37px;
     }
-    /deep/.el-pagination.is-background .btn-prev{
+
+    /deep/ .el-pagination.is-background .btn-prev {
         margin: 0 10px;
         min-width: 40px;
         height: 38px;
