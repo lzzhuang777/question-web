@@ -72,7 +72,8 @@
                     width="40%"
                     class="dialogClass">
                 <div>
-                    <el-progress type="circle" :percentage="100" status="success"></el-progress>
+                    <el-progress type="circle" :percentage="memberTest.score" status="success"></el-progress>
+                    <p style="text-align: center">测验：{{memberTest.testName}}</p>
                 </div>
                 <div>
                     <el-row>
@@ -81,20 +82,14 @@
                             <span>答题时间</span>
                         </el-col>
                         <el-col>
-                            <span></span>
+                            <span>{{memberTest.score/10+"/10"}}</span>
                             <span>正确题目</span>
                         </el-col>
                     </el-row>
                 </div>
                 <div>
-                    <div v-for="memberAns in memberTest.memberAnswerList">
-                        <span v-if="memberAns">
-
-                        </span>
-                        <span v-else="memberAns">
-
-                        </span>
-                    </div>
+                    <span v-for="memberAns in memberTest.testAnswers" :class="memberAns.isCorrect ? 'active':'isActive'">
+                    </span>
                 </div>
             </el-dialog>
         </div>
@@ -186,8 +181,15 @@
                 })
             },
             submitTest() {
-                submitTest(this.$route.query.id).then(response => {
-                    this.testDialogVisible = true;
+                this.$confirm('是否要提前交卷?', '提示', {
+                    confirmButtonText: '确定交卷',
+                    cancelButtonText: '继续做题',
+                    type: 'warning'
+                }).then(() => {
+                    submitTest(this.$route.query.id).then(response => {
+                        this.memberTest = response.data;
+                        this.testDialogVisible = true;
+                    })
                 })
             },
             updateInfo() {
@@ -197,7 +199,6 @@
                     "answer": this.radio,
                     "isCorrect": this.radio === this.question.answer ? 1 : 0
                 };
-                console.log(memberAnswer)
                 submitQuesAnswer(memberAnswer).then(response => {
                 })
             },
@@ -205,7 +206,7 @@
                 isCollection({quesId: quesId}).then(response => {
                     this.collect = response.data;
                 })
-            },
+            }
         }
     }
 </script>
@@ -243,6 +244,22 @@
 
     .function {
         margin: 20px 0 50px 0;
+    }
+    .active {
+        display: block;
+        float: left;
+        margin-left: 10px;
+        background-color: #67C23A;
+        width: 30px;
+        height: 30px;
+    }
+    .isActive {
+        display: block;
+        float: left;
+        margin-left: 10px;
+        background-color: #F56C6C;
+        width: 30px;
+        height: 30px;
     }
 
     /deep/ .el-pagination.is-background .el-pager li {

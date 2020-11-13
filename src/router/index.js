@@ -14,12 +14,6 @@ const routes = [
         component: () => import('@/views/home/index'),
     },
     {
-        path: "/about",
-        name: "About",
-        component: () =>
-            import(/* webpackChunkName: "about" */ "../views/About.vue")
-    },
-    {
         path: "/login",
         name: "login",
         component: () => import('@/views/login/index')
@@ -28,6 +22,11 @@ const routes = [
         path: "/test",
         name: "test",
         component: () => import('@/views/question/index')
+    },
+    {
+        path: "/sign",
+        name: "sign",
+        component: () => import('@/views/ums/sign/index')
     },
     {path: '*', redirect: '/404', hidden: true}
 ];
